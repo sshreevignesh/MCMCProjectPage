@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr" class="com_content view-article layout-blog itemid-118 j31 mm-hover  no-touch">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>City Scale Pollution Aware Traffic Routing using MCMC</title>
+	<link href="./MaxFlow-MCMC Files/css-fb79d-06305.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./MaxFlow-MCMC Files/css-a1f90-37752.css" rel="stylesheet" type="text/css" media="all">
+
+	<style type="text/css">
+		.business-card {
+			display: inline-block;
+			vertical-align: top;
+			width: 500px;
+			height: 150px;
+			position: relative;
+			overflow: hidden;
+			margin: 20px;
+			background: #FFF;
+			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+			color: #272727;
+			border-radius: 2px;
+		}
+
+		.business-card .image {
+			position: relative;
+			height: 150px;
+			width: 150px;
+			float: left;
+		}
+
+		.business-card .image img {
+			border-radius: 2px 0 0 2px;
+			position: relative;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			height: 100%;
+			-moz-transition: -moz-transform 0.5s ease-in;
+			-webkit-transition: -webkit-transform 0.5s ease-in;
+			-o-transition: -o-transform 0.5s ease-in;
+			transition: 0.5s ease-in;
+		}
+
+		.business-card .image img:hover {
+			-moz-transform: scale(.95);
+			-webkit-transform: scale(.95);
+			-o-transform: scale(.95);
+			transform: scale(.95);
+		}
+
+		/* .business-card img:hover{ -webkit-transform: rotateZ(-10deg); -ms-transform: rotateZ(-10deg); transform: rotateZ(-10deg); transition: 1s ease;}*/
+		.business-card .title {
+			padding-top: 10px !important;
+			line-height: 24px;
+			font-size: 18px;
+			font-weight: 600;
+			position: relative;
+			top: 10px;
+			padding: 20px;
+			font-variant: small-caps;
+		}
+
+		.business-card .content {
+			font-size: 13;
+			width: 350px;
+			float: left;
+			padding: 20px;
+			font-weight: 300;
+			border-radius: 0 2px 2px 0;
+		}
+
+		.business-card p {
+			margin: 0;
+		}
+
+		.business-card a {
+			font-size: 13px;
+			color: #29739D;
+			margin-right: 20px;
+			-webkit-transition: color 0.3s ease;
+			transition: color 0.3s ease;
+			text-transform: uppercase;
+			text-decoration: none;
+		}
+
+		.business-card .card-footer {
+			text-align: right;
+			width: 350px;
+			position: absolute;
+			bottom: 0;
+			left: 150px;
+			border-top: 1px solid rgba(160, 160, 160, 0.2);
+			margin: 0;
+			padding-left: 20px;
+			padding-right: 10px;
+		}
+
+		.business-card .card-footer a {
+			color: #ffab40;
+			margin-right: 20px;
+			-webkit-transition: color 0.3s ease;
+			transition: color 0.3s ease;
+			text-transform: uppercase;
+			text-decoration: none;
+		}
+
+		.recent-updates-title {
+			font-size: 16px;
+			padding: 7px 15px;
+			background-color: #eeeeee;
+		}
+
+		.recent-updates-module {
+			height: 400px;
+			overflow: auto;
+			text-align: justify;
+		}
+	</style>
+
+
+	<!-- META FOR IOS & HANDHELD -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style type="text/stylesheet">
+		@-webkit-viewport   { width: device-width; }
+		@-moz-viewport      { width: device-width; }
+		@-ms-viewport       { width: device-width; }
+		@-o-viewport        { width: device-width; }
+		@viewport           { width: device-width; }
+	</style>
+	<script type="text/javascript">
+		//<![CDATA[
+		if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			var msViewportStyle = document.createElement("style");
+			msViewportStyle.appendChild(
+				document.createTextNode("@-ms-viewport{width:auto!important}")
+			);
+			document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+		}
+		//]]>
+	</script>
+	<meta name="HandheldFriendly" content="true">
+	<meta name="apple-mobile-web-app-capable" content="YES">
+	<!-- //META FOR IOS & HANDHELD -->
+
+
+
+
+	<!-- Le HTML5 shim and media query for IE8 support -->
+	<!--[if lt IE 9]>
+<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<script type="text/javascript" src="/plugins/system/t3/base-bs3/js/respond.min.js"></script>
+<![endif]-->
+
+	<!-- You can add Google Analytics here or use T3 Injection feature -->
+
+	<!--[if lt IE 9]>
+<link rel="stylesheet" href="/templates/purity_iii/css/ie8.css" type="text/css" />
+<![endif]-->
+	<style>
+		.menu_blogs h2 {
+			font-size: 2.65rem;
+		}
+
+		.menu_blogs p {
+			font-size: 16px;
+		}
+	</style>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1027.0" data-gr-ext-installed="">
+
+	<div class="t3-wrapper magazine"> <!-- Need this wrapper for off-canvas menu. Remove if you don't use of-canvas -->
+
+
+
+		<div id="t3-mainbody" class="container t3-mainbody">
+			<div class="row">
+
+				<!-- MAIN CONTENT -->
+				<div id="t3-content" class="t3-content col-xs-12">
+					<div id="system-message-container">
+					</div>
+
+
+
+					<div class="item-page clearfix">
+
+
+						<!-- Article -->
+						<article>
+							<meta itemprop="inLanguage" content="en-GB">
+
+
+
+							<!-- Aside -->
+							<!-- //Aside -->
+
+
+
+
+
+
+
+							<section class="article-content clearfix">
+								<h1 class="title is-1 publication-title" style="text-align: center;">City Scale
+									Pollution Aware Traffic Routing using MCMC</s></h1>
+								<h3 class="is-size-5 publication-authors" style="text-align: center;"><span
+										class="author-block"> Shreevignesh Suriyanarayanan</a><sup>1</sup>,</span> <span
+										class="author-block"> Praveen Paruchuri </a><sup>1</sup>,</span> <span
+										class="author-block">Girish Varma</a><sup>1</sup> </span></h3>
+								<div>
+									<h3 class="is-size-5 publication-authors" style="text-align: center;"><span
+											class="author-block"><sup>1</sup>Machine Learning Lab, IIIT Hyderabad, India</span> <br>
+
+										<h3 style="text-align: center;">[<a
+												href="">Paper</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<a
+												href="">Code</a>]</h3>
+										<p>&nbsp;</p>
+										<p>&nbsp;</p>
+										<h3 class="headings-scarp2" style="text-align: center;">Abstract</h3>
+										<p>A significant cause of air pollution in urban areas worldwide is the high
+											volume of road traffic. Long-term exposure to severe pollution can cause
+											serious health issues. One approach towards tackling this problem is to
+											design a pollution-aware traffic routing policy that balances multiple
+											objectives of i) avoiding extreme pollution in any area ii) enabling short
+											transit times, and iii) making effective use of the road capacities. We
+											propose a novel sampling-based approach for this problem. We provide the
+											first construction of a Markov Chain that can sample integer max flow
+											solutions of a planar graph, with theoretical guarantees that the
+											probabilities depend on the aggregate transit length. We designed a traffic
+											policy using diverse samples and simulated traffic on real-world road maps
+											using the SUMO traffic simulator. We observe a considerable decrease in
+											areas with severe pollution when experimented with maps of large cities
+											across the world compared to other approaches. </p>
+										<p>&nbsp;</p>
+										<h3 class="headings-scarp2" style="text-align: center;">Overview</h3>
+										<p><img src="./MaxFlow-MCMC Files//Seattle pollution with legend.png"
+												alt="teaser abstract faceoff" width="942" height="322"
+												style="display: block; margin-left: auto; margin-right: auto;"></p>
+										<p>Air pollution is a major health issue affecting people worldwide. Outdoor air
+											pollution causes millions of deaths each year due to various diseases. Low
+											and middle-income countries are particularly affected, with road traffic
+											being a significant contributor to air pollution in urban areas. To combat
+											this, a transportation policy that distributes traffic flow more evenly
+											through a city is proposed using k-optimality, which ensures that any two
+											flows have at most ≤ k edges in common. A new approach called MaxFlow-MCMC
+											is developed using a Markov Chain Monte Carlo (MCMC) based method to sample
+											integer max flow solutions from a planar graph and generate a k-Optimal set
+											of max flow solutions. This approach is scalable to large-scale cities and
+											was tested on real-world road networks of multiple cities, showing a
+											significant decrease in normalized mean pollution compared to previous
+											algorithms. The MaxFlow-MCMC method offers a diverse set of paths,
+											preventing the concentration of pollution.</p>
+
+										<h3 class="headings-scarp2" style="text-align: center;">Transition in the Markov
+											Chain</h3>
+											<p><embed src="./MaxFlow-MCMC Files//sample_transition.pdf#view=FitH"
+												alt="teaser abstract faceoff" width="950" height="275"
+												style="display: block; margin-left: auto; margin-right: auto;"></p>
+										<p>Example of a transition in the Markov chain. The underlying road network has
+											16 junctions forming a grid with max
+											flow value from 1 to 16 to be 2. The state space consist of all max flows
+											from 1 to 16, which can also be considered as a pair of
+											1 − 16 paths (marked using arrows). The transition in Mflow given in
+											Algorithm 1, involves choosing one of the paths p (marked
+											in red) and one of the faces f ∈ {f1, · · · f10} (marked as blue) of the
+											planar graph at random and rerouting the path along the
+											face. The faces {f1 · · · f9} are marked in the graph and f10 is the outer
+											face</p>
+
+
+										<h3 class="headings-scarp2" style="text-align: center;">Experimental Results</h3>
+										<p><embed src="./MaxFlow-MCMC Files//seattle_solns.pdf#view=FitH"
+												alt="teaser abstract faceoff" width="950" height="950"
+												style="display: block; margin-left: auto; margin-right: auto;"></p>
+										<p>Maxflows (top) and pollution (bottom) generated for the different policies on the map of Seattle with two s,t-pairs. MCMC(k) denotes routing using k samples from Markov Chain. MaxFlow-MCMC with 7 samples prevents severe pollution (red, orange) from happening in any area.</p>
+
+								</div>
+							</section>
+
+						</article>
+
+
+					</div>
+
+
+				</div>
+				<!-- //MAIN CONTENT -->
+
+			</div>
+		</div>
+
+
+
+
+
+		<!-- FOOTER -->
+		<footer id="t3-footer" class="wrap t3-footer">
+
+
+			<section class="t3-copyright">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 copyright ">
+
+							<small>
+								<a href="http://twitter.github.io/bootstrap/" title="Bootstrap by Twitter"
+									target="_blank">Bootstrap</a> is a front-end framework of Twitter, Inc. Code
+								licensed under <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE"
+									title="MIT License" target="_blank">MIT License.</a>
+							</small>
+							<small>
+								<a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">Font Awesome</a>
+								font licensed under <a href="http://scripts.sil.org/OFL">SIL OFL 1.1</a>.
+							</small>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</footer>
+		<!-- //FOOTER -->
+
+	</div>
